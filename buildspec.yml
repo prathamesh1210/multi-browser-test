@@ -1,17 +1,22 @@
 version: 0.2
 
+env:
+  variables:
+    TEST_URL: "https://app.marxeed.com/home"
+    USER_ID: "ZW1haWw6cHJhdGhhbWVzaC5iaG9uZ2FsZUBhcHBsaWVkYWljb25zdWx0aW5nLmNvbQ=="
+    CLIENT_ID: "65t8j92dgdg0j2on5uk6ta0679"
+    CLIENT_SECRET_ID: "1o445n32o471djtmp20l0n86s4fj3g7u0tuvq7ql79opn5ilnl69"
+
 phases:
   install:
     runtime-versions:
       python: 3.8
     commands:
       - pip3 install aitest-cli
+  # build:
+  #   commands:
+  #     - pytest tests/
   build:
     commands:
-      - pytest tests/
-  post_build:
-    commands:
-      - aitest run -id f1f23766-b2ae-11ed-a281-46e6e166e027 -w 5
+      - aitest run -id f1f23766-b2ae-11ed-a281-46e6e166e027 -w 5 -u $TEST_URL -c $CLIENT_ID -s $CLIENT_SECRET_ID -a $USER_ID
       - aitest status -id f1f23766-b2ae-11ed-a281-46e6e166e027
-      
-      
