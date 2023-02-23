@@ -18,5 +18,5 @@ phases:
   #     - pytest tests/
   build:
     commands:
-      - aitest run -id f1f23766-b2ae-11ed-a281-46e6e166e027 -w 5 -u $TEST_URL -c $CLIENT_ID -s $CLIENT_SECRET_ID -a $USER_ID
+      - aitest run -id f1f23766-b2ae-11ed-a281-46e6e166e027 -w 5 
       - aitest status -id f1f23766-b2ae-11ed-a281-46e6e166e027
