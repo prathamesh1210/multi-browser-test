@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - pip3 install aitest-cli
+  build:
+    commands:
+      - pytest tests/
+  post_build:
+    commands:
+      - aitest run -id f1f23766-b2ae-11ed-a281-46e6e166e027 -w 5
+      - aitest status -id f1f23766-b2ae-11ed-a281-46e6e166e027
