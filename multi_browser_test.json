@@ -1,8 +1,11 @@
 {
   "pipeline": {
-    "name": "multi-browser-test",
+    "name": "multi-browser-test-1",
     "roleArn": "arn:aws:iam::897708493501:role/service-role/AWSCodePipelineServiceRole-us-east-1-multi-browser-test",
-
+    "artifactStore": {
+      "type": "S3",
+      "location": "multi-browser-test"
+    },
     "stages": [
       {
         "name": "Source",
@@ -12,18 +15,18 @@
             "actionTypeId": {
               "category": "Source",
               "owner": "AWS",
-              "provider": "Github",
+              "provider": "CodeStarSourceConnection",
               "version": "1"
             },
             "runOrder": 1,
             "configuration": {
               "BranchName": "main",
               "ConnectionArn": "arn:aws:codestar-connections:us-east-1:897708493501:connection/75809a47-1dd0-48cf-9f84-1b9fe687b2bf",
-              "FullRepositoryId": "prathamesh1210/multi-browser-test",
-              "OutputArtifactFormat": "NO_ARTIFACTS"
+              "FullRepositoryId": "prathamesh1210/multi-browser-test"
+             
             },
             "outputArtifacts": [{ "name": "SourceArtifact" }],
-            "inputArtifacts": [{ "name": "BuildArtifact" }]
+            "inputArtifacts": []
           }
         ]
       },
@@ -40,18 +43,11 @@
             },
             "runOrder": 1,
             "configuration": {
-              "ProjectName": "multi-browser-test",
-              "EnvironmentVariables": [
-                {
-                  "name": "TEST_ID",
-                  "value": "d0e3211e-b0f3-11ed-8458-3e806e3fee01"
-                },
-                { "name": "WAIT_TIME", "value": "5" }
-              ],
-              "Buildspec": "buildspec.yml"
+              "ProjectName": "install aitest"
+              
             },
             "outputArtifacts": [],
-            "inputArtifacts": [{ "name": "BuildArtifact" }]
+            "inputArtifacts": [{ "name": "SourceArtifact" }]
           }
         ]
       }
