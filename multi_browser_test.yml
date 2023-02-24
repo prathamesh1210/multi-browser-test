@@ -1,114 +1,60 @@
 {
-  "pipeline":
-    {
-      "name": "",
-      "roleArn": "",
-     # "artifactStore": { "type": "", "location": "" },
-      "stages": [
+  "pipeline": {
+    "name": "multi-browser-test",
+    "roleArn": "arn:aws:iam::897708493501:role/service-role/AWSCodePipelineServiceRole-us-east-1-multi-browser-test",
+
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
           {
             "name": "Source",
-            "actions":
-              [
-                {
-                  "name": "Source",
-                  "actionTypeId":
-                    {
-                      "category": "Source",
-                      "owner": "AWS",
-                      "provider": "CodeStarSourceConnection",
-                      "version": "1",
-                    },
-                  "runOrder": 1,
-                  "configuration":
-                    {
-                      "BranchName": "",
-                      "ConnectionArn": "",
-                      "FullRepositoryId": "",
-                      "OutputArtifactFormat": "",
-                    },
-                  "outputArtifacts": [{ "name": "SourceArtifact" }],
-                  "inputArtifacts": [],
-                },
-              ],
-          },
-          # {
-          #   "name": "Build",
-          #   "actions":
-          #     [
-          #       {
-          #         "name": "Build",
-          #         "actionTypeId":
-          #           {
-          #             "category": "Build",
-          #             "owner": "AWS",
-          #             "provider": "CodeBuild",
-          #             "version": "1",
-          #           },
-          #         "runOrder": 1,
-          #         "configuration": { "ProjectName": "" },
-          #         "outputArtifacts": [{ "name": "BuildArtifact" }],
-          #         "inputArtifacts": [{ "name": "SourceArtifact" }],
-          #       },
-          #     ],
-          # },
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "AWS",
+              "provider": "Github",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "BranchName": "main",
+              "ConnectionArn": "arn:aws:codestar-connections:us-east-1:897708493501:connection/75809a47-1dd0-48cf-9f84-1b9fe687b2bf",
+              "FullRepositoryId": "prathamesh1210/multi-browser-test",
+              "OutputArtifactFormat": "NO_ARTIFACTS"
+            },
+            "outputArtifacts": [{ "name": "SourceArtifact" }],
+            "inputArtifacts": [{ "name": "BuildArtifact" }]
+          }
+        ]
+      },
+      {
+        "name": "Test",
+        "actions": [
           {
             "name": "Test",
-            "actions":
-              [
+            "actionTypeId": {
+              "category": "Test",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "ProjectName": "multi-browser-test",
+              "EnvironmentVariables": [
                 {
-                  "name": "Test",
-                  "actionTypeId":
-                    {
-                      "category": "Test",
-                      "owner": "AWS",
-                      "provider": "CodeBuild",
-                      "version": "1",
-                    },
-                  "runOrder": 1,
-                  "configuration":
-                    {
-                      "ProjectName": "",
-                      "EnvironmentVariables":
-                        [
-                          {
-                            "name": "TEST_ID",
-                            "value": "d0e3211e-b0f3-11ed-8458-3e806e3fee01",
-                          },
-                          { "name": "WAIT_TIME", "value": "5" },
-                        ],
-                      "Buildspec": "tests/buildspec.yml",
-                    },
-                  "outputArtifacts": [],
-                  "inputArtifacts": [{ "name": "BuildArtifact" }],
+                  "name": "TEST_ID",
+                  "value": "d0e3211e-b0f3-11ed-8458-3e806e3fee01"
                 },
+                { "name": "WAIT_TIME", "value": "5" }
               ],
-          },
-          # {
-          #   "Name": "Deploy",
-          #   "Actions":
-          #     [
-          #       {
-          #         "Name": "Deploy",
-          #         "ActionTypeId":
-          #           {
-          #             "Category": "Deploy",
-          #             "Owner": "AWS",
-          #             "Provider": "CodeDeploy",
-          #             "Version": "1",
-          #           },
-          #         "RunOrder": 1,
-          #         "Configuration":
-          #           {
-          #             "ApplicationName": "my-application",
-          #             "DeploymentGroupName": "my-deployment-group",
-          #           },
-          #         "OutputArtifacts": [],
-          #         "InputArtifacts": [{ "Name": "SourceArtifact" }],
-          #         "Region": "us-west-2",
-          #         "Namespace": "DeployVariables",
-          #       },
-          #     ],
-          # },
-        ],
-    },
+              "Buildspec": "buildspec.yml"
+            },
+            "outputArtifacts": [],
+            "inputArtifacts": [{ "name": "BuildArtifact" }]
+          }
+        ]
+      }
+    ]
+  }
 }
